@@ -1,0 +1,55 @@
+<launch>
+ 
+  <!-- Global parameter available to all nodes -->
+  <param name="wheels_baseline" value="1.300" type="double"/>
+  <param name="front_to_rear" value="1.765" type="double"/>
+  <param name="steering_factor" value="32.0" type="double"/>
+  <param name="theta_init" value="0" type="double" />
+
+
+    <node pkg="first_project" type="odometer" name="odometer" output="screen">
+
+    <!-- Private parameter for the node "odometer" -->
+
+    	<param name="range" value="1e-1" type="double" />
+    	<param name="odom_sampling_f" value="20.0" type="double" />
+    	<param name="y_init" value="0.0" type="double"/>
+    	<param name="x_init" value="0.0" type="double" />
+    </node>
+
+
+    <node pkg="first_project" type="gps_odometer" name="gps_odometer" output="screen"> 
+
+    <!-- Private parameter for the node "Gps_Odometer" -->
+    	<param name="gps_odom_sampling_f" value="10" type="double" />
+    	<param name="lat_r" value="45.618932386592405" type="double" />
+    	<param name="lon_r" value="9.281178887031235" type="double"/>
+    	<param name="alt_r" value="229.04906147731415" type="double" />
+    	<param name="a" value="6378137.0" type="double" />
+    	<param name="b" value="6356752.0" type="double" />
+    	<param name="theta_static" value="1.4857" type="double" />
+    </node>
+
+
+    <node pkg="first_project" type="sector_times" name="sector_times" output="screen"> 
+
+    <!-- Private parameter for the node "Sector_Times" -->
+    	<param name="sector_sampling_f" value="20.0" type="double" />
+    	<param name="sector_1_lat" value="45.6160320" type="double" />
+    	<param name="sector_1_lon" value="9.2808720" type="double" />
+    	<param name="sector_1_lon_lim" value="9.282519" type="double" />
+    	<param name="sector_2_lat" value="45.6301146" type="double" />
+    	<param name="sector_2_lon" value="9.2894910" type="double" />
+    	<param name="sector_3_lat" value="45.6235716" type="double" />
+    	<param name="sector_3_lon" value="9.2873016" type="double" />
+    	<param name="map_limit_lat_top_right_corner" value="45.6326870" type="double" />
+    	<param name="map_limit_lon_top_right_corner" value="9.2990819" type="double" />
+    	<param name="map_limit_lat_bottom_left_corner" value="45.6070916" type="double" />
+    	<param name="map_limit_lon_bottom_left_corner" value="9.2742017" type="double" />
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" output="screen"
+        args="-d $(find first_project)/rviz/rviz_config.rviz" />
+
+
+</launch>
