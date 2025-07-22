@@ -1,0 +1,55 @@
+<launch>
+ 
+ <param name="/use_sim_time" value="true"/>
+ 
+
+
+  <node pkg="second_project" type="data_conversion" name="data_conversion" output="screen"/>
+
+	<node pkg="ira_laser_tools" name="laserscan_multi_merger" type="laserscan_multi_merger" output="screen">
+	<param name="destination_frame" value="base_link"/>
+	<param name="cloud_destination_topic" value="/merged_cloud"/>
+	<param name="scan_destination_topic" value="/scan"/>
+	<param name="laserscan_topics" value ="/filtered_scan_front /filtered_scan_back" /> <!-- LIST OF THE LASER SCAN TOPICS TO SUBSCRIBE -->
+	<param name="angle_increment" value="0.0058"/>
+	<param name="scan_time" value="0.0333333"/>
+	<param name="range_min" value="0.0"/>
+	<param name="range_max" value="100.0"/>
+        <param name="transform_tolerance"    value="0.20"/> 
+        </node>
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+
+  <!-- Coordinate frames -->
+    <param name="base_frame" value="base_link"/>
+    <param name="odom_frame" value="odom"/>
+
+
+    <!-- Map size and resolution (edit as needed) -->
+    <param name="delta" value="0.05"/>          <!-- 5 cm resolution -->
+    <param name="xmin"  value="-100.0"/>
+    <param name="ymin"  value="-100.0"/>
+    <param name="xmax"  value=" 100.0"/>
+    <param name="ymax"  value=" 100.0"/>
+
+    <!-- Laser parameters: must match your sensor spec -->
+    <param name="maxRange"  value="100"/>       <!-- == scan.range_max -->
+    <param name="maxUrange" value="99.5"/>       <!-- a hair smaller to reject far outliers -->
+
+    <!-- Scan matcher / filter tuning -->
+    <param name="minimumScore" value="200"/>
+    <param name="sigma"        value="0.2"/>
+    <param name="kernelSize"   value="0.05"/>
+
+    <!-- When to fuse odom / laser updates -->
+    <param name="linearUpdate"  value="0.10"/>  <!-- metres -->
+    <param name="angularUpdate" value="0.10"/>  <!-- radians -->
+    <param name="map_update_interval" value="0.2"/>
+    <param name="particles" value="150"/>
+    <param name="resampleThreshold" value="0.1"/>
+
+   
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find second_project)/rviz/robot_mapping.rviz"/>
+</launch>
