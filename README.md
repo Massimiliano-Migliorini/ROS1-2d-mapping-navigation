@@ -12,7 +12,7 @@ Group project for the course “Perception, Localization and Mapping for Mobile 
 
 | Task_1 | Task_2 |
 |------------|--------------------|
-| ![Map](images/map.png) | ![Navigation](images/navigation.png) |
+| ![](images/Project_1_task.png) | ![](images/Project_2_task.png) |
 
 ## 📁 Contents
 
